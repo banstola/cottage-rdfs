@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # CMake
 cmake-build-*/
 
@@ -70,3 +71,10 @@ target/
 .idea/*
 
 # End of https://www.gitignore.io/api/java,java-web,intellij
+=======
+.idea
+lib
+cottage-query-rdbs.iml
+cottagequeryapp.iml
+target
+>>>>>>> 7c7b336... Add spring boot support
