@@ -12,6 +12,6 @@ public class HomeController {
     public String welcome(Map<String, Object> model) {
 
         System.out.println("The request arrived here");
-        return "index";
+        return "app";
     }
 }
