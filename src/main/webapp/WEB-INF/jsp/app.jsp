@@ -12,8 +12,9 @@
 <body>
 
 <div class="container">
-  <h2></h2>
-  <form action="/action_page.php">
+  <h2>Cottage booking app</h2>
+
+  <form>
     <div class="form-group">
       <label for="booker-name">Enter your name</label>
       <input type="text" class="form-control" id="booker-name" placeholder="Enter your name" name="booker-name">
