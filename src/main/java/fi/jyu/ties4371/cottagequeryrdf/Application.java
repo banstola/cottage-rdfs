@@ -1,4 +1,4 @@
-package fi.jyu.ties4371.cottagequeryrdf.view;
+package fi.jyu.ties4371.cottagequeryrdf;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

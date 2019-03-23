@@ -1,0 +1,13 @@
+@prefix cottage: <http://example.org/ex> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema>
+
+cottage:cottage01 rdf:type cottage:Cottage; cottage:availability "true"^^xsd:boolean; cottage:hasId "01"; cottage:capacity "10"; cottage:numberOfBedrooms "4"; cottage:nearestCity "Kuhmo"; cottage:distanceToNearestCity "5"; cottage:distanceToLake "200"; cottage:hasAddress "Examplestreet"; cottage:cottageImageURL "https://dkvhmgvkwdd6n.cloudfront.net/wp-content/uploads/2017/02/10070555/Cottage-18_052-900x600.jpg" .
+
+cottage:cottage02 rdf:type cottage:Cottage; cottage:availability "false"^^xsd:boolean; cottage:hasId "02"; cottage:capacity "8"; cottage:numberOfBedrooms "4"; cottage:nearestCity "Jyväskylä"; cottage:distanceToNearestCity "15"; cottage:distanceToLake "100"; cottage:hasAddress "Examplestreet02"; cottage:cottageImageURL "https://dkvhmgvkwdd6n.cloudfront.net/wp-content/uploads/2017/02/10070555/Cottage-18_052-900x600.jpg" .
+
+cottage:cottage03 rdf:type cottage:Cottage; cottage:availability "false"^^xsd:boolean; cottage:hasId "03"; cottage:capacity "5"; cottage:numberOfBedrooms "3"; cottage:nearestCity "Kokkola"; cottage:distanceToNearestCity "13"; cottage:distanceToLake "250"; cottage:hasAddress "Examplestreet03"; cottage:cottageImageURL "https://dkvhmgvkwdd6n.cloudfront.net/wp-content/uploads/2017/02/10070555/Cottage-18_052-900x600.jpg" .
+
+cottage:cottage04 rdf:type cottage:Cottage; cottage:availability "true"^^xsd:boolean; cottage:hasId "04"; cottage:capacity "10"; cottage:numberOfBedrooms "6"; cottage:nearestCity "Espoo"; cottage:distanceToNearestCity "5"; cottage:distanceToLake "150"; cottage:hasAddress "Examplestreet04"; cottage:cottageImageURL "https://dkvhmgvkwdd6n.cloudfront.net/wp-content/uploads/2017/02/10070555/Cottage-18_052-900x600.jpg" .
+
+cottage:cottage05 rdf:type cottage:Cottage; cottage:availability "true"^^xsd:boolean; cottage:hasId "05"; cottage:capacity "11"; cottage:numberOfBedrooms "6"; cottage:nearestCity "Helsinki"; cottage:distanceToNearestCity "13"; cottage:distanceToLake "50"; cottage:hasAddress "Examplestreet05"; cottage:cottageImageURL "https://dkvhmgvkwdd6n.cloudfront.net/wp-content/uploads/2017/02/10070555/Cottage-18_052-900x600.jpg" .

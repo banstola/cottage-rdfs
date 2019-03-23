@@ -1,4 +1,4 @@
-package fi.jyu.ties4371.cottagequeryrdf.view;
+package fi.jyu.ties4371.cottagequeryrdf;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
