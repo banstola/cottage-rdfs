@@ -7,9 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletContext;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.Map;
 
 @RestController
 public class SearchController {
@@ -18,7 +17,9 @@ public class SearchController {
     ServletContext servletContext;
 
     @RequestMapping("/search")
-    public List<Booking> search(@RequestParam int numberOfPeople,
+    public List<Booking> search(
+            @RequestParam String bookerName,
+            @RequestParam int numberOfPeople,
                                 @RequestParam int numberOfBedRooms,
                                 @RequestParam float distanceToLake,
                                 @RequestParam float distanceToNearestCity,
@@ -35,7 +36,7 @@ public class SearchController {
          numberOfPeople:
          numberOfBedRooms:
          distanceToLake:
-         getDistanceNearestCity:
+         getDistanceToNearestCity:
          cityName:
          dateOfArrival:
          durationOfStay:
@@ -58,9 +59,51 @@ public class SearchController {
 
         RdfDatabase database = new RdfDatabase(servletContext.getRealPath("/data/cottage-rdfs-database.ttl"));
 
-        database.searchForResult(searchQuery);
+        List<Map> results = database.searchForResult(searchQuery);
 
-        bookings.add(new Booking());
+
+        for (Map<String,String> result : results) {
+
+            Booking booking = new Booking();
+
+            if (result.containsKey("numberOfPeople")){
+                booking.setNumberOfPeople(Integer.parseInt(result.get("numberOfPeople")));
+            }
+
+            if (result.containsKey("numberOfBedRooms")){
+                booking.setNumberOfBedRooms(Integer.parseInt(result.get("numberOfBedRooms")));
+            }
+
+            if (result.containsKey("distanceToLake")){
+                booking.setDistanceToLake(Float.parseFloat(result.get("distanceToLake")));
+            }
+
+            if (result.containsKey("cityName")){
+                booking.setCityName(result.get("cityName"));
+            }
+
+            if (result.containsKey("distanceToNearestCity")){
+                booking.setDistanceToNearestCity(Float.parseFloat(result.get("distanceToNearestCity")));
+            }
+
+            if (result.containsKey("address")){
+                booking.setAddressString(result.get("address"));
+            }
+
+            if (result.containsKey("imageURL")){
+                booking.setImage(result.get("imageURL"));
+            }
+
+            booking.setName(bookerName);
+
+
+            bookings.add(booking);
+
+
+        }
+
+
+
         return bookings;
 
 

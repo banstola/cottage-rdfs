@@ -12,7 +12,7 @@ public class Booking  {
 
     private float distanceToLake;
 
-    private float getDistanceNearestCity;
+    private float distanceToNearestCity;
 
     private String cityName;
 
@@ -27,6 +27,8 @@ public class Booking  {
     private String image;
 
     private Address address;
+
+    private String addressString;
 
     public Booking() {
         this.id = (int) (Math.random()* 99999999);
@@ -64,12 +66,12 @@ public class Booking  {
         this.distanceToLake = distanceToLake;
     }
 
-    public float getGetDistanceNearestCity() {
-        return getDistanceNearestCity;
+    public float getDistanceToNearestCity() {
+        return distanceToNearestCity;
     }
 
-    public void setGetDistanceNearestCity(float getDistanceNearestCity) {
-        this.getDistanceNearestCity = getDistanceNearestCity;
+    public void setDistanceToNearestCity(float distanceToNearestCity) {
+        this.distanceToNearestCity = distanceToNearestCity;
     }
 
     public String getCityName() {
@@ -127,5 +129,14 @@ public class Booking  {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+
+    public String getAddressString() {
+        return addressString;
+    }
+
+    public void setAddressString(String addressString) {
+        this.addressString = addressString;
     }
 }
