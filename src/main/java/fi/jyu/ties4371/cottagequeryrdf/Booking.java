@@ -1,8 +1,9 @@
 package fi.jyu.ties4371.cottagequeryrdf;
 
 import java.util.Date;
+import java.util.Map;
 
-public class Booking  {
+public class Booking {
 
     private String name;
 
@@ -30,8 +31,16 @@ public class Booking  {
 
     private String addressString;
 
-    public Booking() {
-        this.id = (int) (Math.random()* 99999999);
+    public Booking(Map<String, String> result) {
+
+        this.id = (int) (Math.random() * 99999999);
+        this.numberOfPeople = Integer.parseInt(result.get("numberOfPeople"));
+        this.numberOfBedRooms = Integer.parseInt(result.get("numberOfBedRooms"));
+        this.distanceToLake = Float.parseFloat(result.get("distanceToLake"));
+        this.cityName = result.get("cityName");
+        this.distanceToNearestCity = Float.parseFloat(result.get("distanceToNearestCity"));
+        this.addressString = result.get("address");
+        this.image = result.get("imageURL");
     }
 
     public String getName() {

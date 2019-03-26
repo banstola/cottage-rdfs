@@ -8,6 +8,7 @@ import org.apache.jena.rdf.model.*;
 import org.apache.jena.riot.RDFDataMgr;
 import org.eclipse.rdf4j.sparqlbuilder.core.Prefix;
 import org.eclipse.rdf4j.sparqlbuilder.core.SparqlBuilder;
+import org.eclipse.rdf4j.sparqlbuilder.rdf.Rdf;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,24 +21,16 @@ public class RdfDatabase {
 
     private static final String RDF_NAMESPACE = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
     private static final String XSD_NAMESPACE = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-    private static final String COTTAGE_NAMESPACE = "http://example.org/ex#";
-
-    private Prefix rdfPrefix;
-    private Prefix cottagePrefix;
-    private Prefix xsdPrefix;
-
+    private static final String COTTAGE_NAMESPACE = "http://users.jyu.fi/~rakrbans/interface-of-things/index.owl#";
 
     private String rdfFilePath;
 
     private static String queryNamespace = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
-            "PREFIX cottage: <http://example.org/ex>\n" +
+            "PREFIX cottage: <http://users.jyu.fi/~rakrbans/interface-of-things/index.owl#>\n" +
             "PREFIX xsd: <http://www.w3.org/2001/XMLSchema>\n";
 
     public RdfDatabase(String rdfFilePath) {
         this.rdfFilePath = rdfFilePath;
-        this.rdfPrefix = SparqlBuilder.prefix("rdf", iri(RDF_NAMESPACE));
-        this.cottagePrefix = SparqlBuilder.prefix("xsd", iri(XSD_NAMESPACE));
-        this.xsdPrefix = SparqlBuilder.prefix("cottage", iri(COTTAGE_NAMESPACE));
     }
 
     public List<Map> searchForResult(SearchQuery searchQuery) {
@@ -48,24 +41,21 @@ public class RdfDatabase {
         OntModel ontModel = ModelFactory.createOntologyModel(ontModelSpec, model);
 
         String queryString = queryNamespace +
-                "SELECT ?cottage ?numberOfBedrooms ?nearestCity ?cottageId ?address ?imageURL ?distanceToLake \n" +
+                "SELECT ?cottage ?numberOfBedrooms ?nearestCity ?cottageId ?address ?imageURL ?distanceToLake ?distanceToNearestCity ?imageURL \n" +
                 "WHERE {  ?cottage rdf:type cottage:Cottage .\n" +
-                "         ?cottage cottage:nearestCity \"" + searchQuery.getCityName() + "\" .\n" +
-                "         ?cottage cottage:capacity ?capacity .\n" +
-                //  "         ?cottage cottage:numberOfBedrooms \"" + searchQuery.getNumberOfBedRooms() + "\" .\n" +
-                //  "         ?cottage cottage:hasId ?cottageId .\n" +
-                //  "         ?cottage cottage:nearestCity \"" + searchQuery.getCityName() + "\" .\n" +
-                //  "         ?cottage cottage:distanceToNearestCity \"" + searchQuery.getDistanceToNearestCity() + "\" .\n" +
-                //  "         ?cottage cottage:distanceToLake \"" + searchQuery.getDistanceToLake() + "\" .\n" +
-                //  "         ?cottage cottage:hasAddress ?address.\n" +
-                //  "         ?cottage cottage:cottageImageURL ?imageUrl" +
-
-                //    "FILTER (?capacity >= 9) .\n"+
-
+                "         ?cottage cottage:nearestCity \"" + searchQuery.getCityName() + "\" ; cottage:nearestCity ?nearestCity .\n" +
+                "         ?cottage cottage:numberOfBedrooms \"" + searchQuery.getNumberOfBedRooms() + "\" ; cottage:capacity ?numberOfBedrooms .\n" +
+                "         ?cottage cottage:hasId ?cottageId .\n" +
+                "         ?cottage cottage:distanceToNearestCity \"" + searchQuery.getDistanceToNearestCity() + "\" ; cottage:distanceToNearestCity ?distanceToNearestCity .\n" +
+                "         ?cottage cottage:distanceToLake \"" + searchQuery.getDistanceToLake() + "\" ; cottage:distanceToLake ?distanceToLake .\n" +
+                "         ?cottage cottage:hasAddress ?address.\n " +
+                "         ?cottage cottage:cottageImageURL ?imageURL .\n" +
                 "}";
 
         System.out.println(queryString);
 
+
+       // cottage:cottage01 rdf:type cottage:Cottage; cottage:availability "true"^^xsd:boolean; cottage:hasId "01"; cottage:capacity "10"^^xsd:integer; cottage:numberOfBedrooms "4"; cottage:nearestCity "Kuhmo"; cottage:distanceToNearestCity "5"; cottage:distanceToLake "200"; cottage:hasAddress "Examplestreet"; cottage:cottageImageURL "https://dkvhmgvkwdd6n.cloudfront.net/wp-content/uploads/2017/02/10070555/Cottage-18_052-900x600.jpg" .
 
         Dataset dataset = DatasetFactory.create(ontModel);
         Query q = QueryFactory.create(queryString);
@@ -74,44 +64,41 @@ public class RdfDatabase {
         ResultSet resultSet = qexec.execSelect();
 
 
-        String numberOfBedrooms;
-        String nearestCity;
-        String address;
-        String cottageId;
-        String imageURL;
-        Float distanceToLake;
-        int capacity;
-
-
         List<Map> foundCottages = new ArrayList<>();
 
-        Map<String, String> result1 = new HashMap<>();
 
 
-        result1.put("numberOfPeople", "10"); // capacity
-        result1.put("numberOfBedRooms", "5");
-        result1.put("distanceToLake", "10");
-        result1.put("cityName", "Kuhmo");
-        result1.put("distanceToNearestCity", "10");
-        result1.put("imageURL", "https://dkvhmgvkwdd6n.cloudfront.net/wp-content/uploads/2017/02/10070555/Cottage-18_052-900x600.jpg");
-        result1.put("address", "Survontie 46 A 40520 Jyväskylä");
 
 
-        foundCottages.add(result1);
+        while (resultSet.hasNext()) {
+            QuerySolution row = (QuerySolution) resultSet.next();
+            RDFNode city = row.get("nearestCity");
+            RDFNode numberOfBedrooms = row.get("numberOfBedrooms");
+            RDFNode address = row.get("address");
+            RDFNode imageURL = row.get("imageURL");
+            RDFNode distanceToLake = row.get("distanceToLake");
+            RDFNode distanceToNearestCity = row.get("distanceToNearestCity");
+
+            Map<String, String> result = new HashMap<>();
+
+
+            result.put("numberOfPeople", searchQuery.getNumberOfPeople()+""); // capacity
+            result.put("numberOfBedRooms",numberOfBedrooms.toString());
+            result.put("distanceToLake", distanceToLake.toString());
+            result.put("cityName", city.toString());
+            result.put("distanceToNearestCity", distanceToNearestCity.toString());
+            result.put("imageURL", imageURL.toString());
+            result.put("address", address.toString());
+            result.put("durationStay",searchQuery.getDurationOfStay()+"");
+
+
+            foundCottages.add(result);
+
+        }
 
         return foundCottages;
 
 
-      /*  System.out.println("Results: ---");
-        while (resultSet.hasNext()) {
-            QuerySolution row = (QuerySolution) resultSet.next();
-            RDFNode nextItemId = row.get("");
-
-
-
-        }
-
-*/
     }
 
 
