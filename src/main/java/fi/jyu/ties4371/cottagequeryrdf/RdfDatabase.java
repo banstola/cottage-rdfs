@@ -52,6 +52,7 @@ public class RdfDatabase {
                 "         ?cottage cottage:cottageImageURL ?imageURL .\n" +
                 "}";
 
+        //   "FILTER (?capacity > 9) . \n"
         System.out.println(queryString);
 
 

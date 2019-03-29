@@ -6,49 +6,21 @@ $(document).ready(function () {
 
             //MP
             var arrival = $('#dateOfArrival').val();
-            var duration = $('#durationOfStay').val();
+            var duration = parseInt($('#durationOfStay').val());
 
-            var aday = parseInt(arrival.substring(0, 1));
-            var amonth = parseInt(arrival.substring(3, 4));
-            var ayear = parseInt(arrival.substring(6, 9));
+            var aday = parseInt(arrival.substring(0, 2));
+            var amonth = parseInt(arrival.substring(3, 5));
+            var ayear = parseInt(arrival.substring(6, 10));
 
             var eday, emonth, eyear;
 
-            //  Check if the month has more than 28 days and the month is february
-            if (aday + duration > 28 && amonth === 2) {
-                eday = aday + duration - 28;
-                emonth = amonth + 1;
-            }
+            eday = aday + duration;
+            emonth = amonth;
+            eyear = ayear;
 
-            //  Check if the month has more than 30 days and the months maximum number of days is 30
-            if (aday + duration > 30 && (amonth === 3 || amonth === 6 || amonth === 9 || amonth === 11)) {
-                eday = aday + duration - 30;
-                emonth = amonth + 1;
-            }
-
-            //  Check if the month has more than 31 days and the month is december
-            if (aday + duration > 31 && amonth === 12) {
-                eday = aday + duration - 31;
-                emonth = 1;
-                eyear = ayear + 1;
-            }
-
-            //  Check if the month has more than 31 days and the month is not december and has maximum of 31 days
-            if (aday + duration > 31 && (amonth === 3 || amonth === 5 || amonth === 7 || amonth === 8 || amont === 10)) {
-                eday = aday + duration - 31;
-                emonth = amonth;
-                eyear = ayear;
-            }
-            // All of the so called normal cases
-            elseif
-            {
-                eday = aday + duration;
-                emonth = amonth;
-                eyear = ayear;
-            }
-
+            //2.0.-24.0.201
             // Put everything to one string that is the returned
-            return aday.toString() + "." + amonth.toString() + ".-" + eday.toString() + "." + emonth.toString() + "." + eyear.toSring();
+            return aday.toString() + "." + amonth.toString() + ".-" + eday.toString() + "." + emonth.toString() + "." + eyear.toString();
         },
         init: function () {
 
